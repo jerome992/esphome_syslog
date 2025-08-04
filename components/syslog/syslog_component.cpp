@@ -34,11 +34,7 @@ void SyslogComponent::setup() {
 
     #ifdef USE_LOGGER
     if (logger::global_logger != nullptr) {
-    #if ESPHOME_VERSION_CODE >= VERSION_CODE(2025, 7, 0)
         logger::global_logger->add_on_log_callback([this](int level, const char *tag, const char *message,size_t size) {
-    #else
-        logger::global_logger->add_on_log_callback([this](int level, const char *tag, const char *message) {
-    #endif
             if(!this->enable_logger || (level > this->settings_.min_log_level)) return;
             if(this->strip_colors) { //Strips the "033[0;xxx" at the beginning and the "#033[0m" at the end of log messages
                 std::string org_msg(message);
